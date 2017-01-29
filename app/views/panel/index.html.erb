@@ -1,2 +1,11 @@
-<h1>Panel#index</h1>
-<p>Find me in app/views/panel/index.html.erb</p>
+<h1>Select Talk</h1>
+<p>Select a talk which you wanna send a message to.</p>
+
+<ul>
+  <% @talks.each do |talk| %>
+    <li>
+      <%= link_to talk.receiver_id, panel_talk_url(talk.id) %>
+      (Last message sent at: <%= talk.messages.last.try(:created_at) %>)
+    </li>
+  <% end %>
+</ul>

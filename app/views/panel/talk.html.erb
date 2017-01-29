@@ -1,0 +1,9 @@
+<h1>Send Message</h1>
+
+<div class="talk timeline">
+  <% @talk.messages.each do |message| %>
+    <div>
+      <%= render message %>
+    </div>
+  <% end %>
+</div>

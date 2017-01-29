@@ -1,0 +1,5 @@
+<% if message.text? %>
+  <%= message.content_hash['text'] %>
+<% else %>
+  (<%= message.message_type %>)
+<% end %>
