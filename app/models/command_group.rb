@@ -1,0 +1,2 @@
+class CommandGroup < ApplicationRecord
+end
