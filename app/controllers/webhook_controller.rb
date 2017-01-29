@@ -1,6 +1,8 @@
 require 'line/bot'
 
 class WebhookController < ApplicationController
+  protect_from_forgery :except => [:on_message]
+
   def on_message
     body = request.body.read
 
