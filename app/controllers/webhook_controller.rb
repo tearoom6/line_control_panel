@@ -14,6 +14,43 @@ class WebhookController < ApplicationController
     events = client.parse_events_from(body)
     events.each do |event|
       logger.info "Received event: #{event.to_json}"
+
+      source = event['source']
+      if source.blank? || ! source.is_a?(Hash)
+        logger.warn 'Event source not found.'
+        break
+      end
+      talk = Talk.find_or_create_by(
+        talk_type: Talk.talk_types[source['type']],
+        receiver_id: source.fetch("#{source['type']}Id"),
+      )
+      logger.warn 'Failed to create talk.' and break if talk.blank?
+
+      event_record = Event.create(
+        event_type: Event.event_types[event['type']],
+        talk_id: talk.id,
+        timestamp: event['timestamp'],
+        content: event.to_json,
+      )
+      logger.warn 'Failed to create event.' and break if talk.blank?
+
+      if event_record.message? && event.message.present?
+        message = Message.create(
+          message_type: Message.message_types[event.message['type']],
+          talk_id: talk.id,
+          event_id: event_record.id,
+          content: event.message.to_json,
+        )
+        logger.warn 'Failed to create message.' and break if message.blank?
+      end
+
+      if event_record.follow? || event_record.join?
+        logger.info "Activete talk: #{talk.id}" if talk.update(status: :active)
+      end
+
+      if event_record.unfollow? || event_record.leave?
+        logger.info "Inactivete talk: #{talk.id}" if talk.update(status: :inactive)
+      end
     end
 
     render nothing: true, status: 200
@@ -22,10 +59,10 @@ class WebhookController < ApplicationController
   private
 
   def client
-    @client ||= Line::Bot::Client.new { |config|
+    @client ||= Line::Bot::Client.new do |config|
       config.channel_secret = ENV['LINE_CHANNEL_SECRET']
       config.channel_token = ENV['LINE_CHANNEL_TOKEN']
-    }
+    end
   end
 
 end
