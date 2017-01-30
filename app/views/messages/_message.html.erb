@@ -1,5 +1,8 @@
-<% if message.text? %>
-  <%= message.content_hash['text'] %>
-<% else %>
-  (<%= message.message_type %>)
-<% end %>
+<div class="message frame">
+  <% if message.text? %>
+    <span class="message"><%= message.content_hash['text'] %></span>
+  <% else %>
+    <span class="message">(<%= message.message_type %>)</span>
+  <% end %>
+</div>
+
