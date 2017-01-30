@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170129084538) do
+ActiveRecord::Schema.define(version: 20170130235729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20170129084538) do
     t.integer  "status",      limit: 2,             null: false
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.index ["receiver_id"], name: "index_talks_on_receiver_id", unique: true, using: :btree
     t.index ["status"], name: "index_talks_on_status", using: :btree
     t.index ["talk_type", "receiver_id"], name: "index_talks_on_talk_type_and_receiver_id", unique: true, using: :btree
   end

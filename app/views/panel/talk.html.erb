@@ -1,9 +1,18 @@
+<%= link_to 'Back', panel_index_url %>
+
 <h1>Send Message</h1>
 
-<div class="talk timeline">
-  <%= render @talk.messages.take(5) %>
+<div id="timeline" class="talk timeline">
+  <%= render @talk.messages.last(5) %>
 </div>
 
 <div class="talk control">
+  <input id="receiver-id" type="hidden" value="<%= @talk.receiver_id %>" />
+  <div id="text-input">
+    <input id="message-text" type="text" />
+    <input id="message-button" type="button" value="Send" />
+  </div>
+  <div id="command-input">
+  </div>
 </div>
 

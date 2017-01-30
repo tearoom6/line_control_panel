@@ -7,11 +7,11 @@ class WebhookController < ApplicationController
     body = request.body.read
 
     signature = request.env['HTTP_X_LINE_SIGNATURE']
-    unless client.validate_signature(body, signature)
+    unless line_bot_client.validate_signature(body, signature)
       render nothing: true, status: 400 and return
     end
 
-    events = client.parse_events_from(body)
+    events = line_bot_client.parse_events_from(body)
     events.each do |event|
       logger.info "Received event: #{event.to_json}"
 
@@ -55,8 +55,5 @@ class WebhookController < ApplicationController
 
     render nothing: true, status: 200
   end
-
-  private
-
 
 end
