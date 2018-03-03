@@ -1,24 +1,15 @@
-# README
+# LINE Control Panel
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Configurations
 
-Things you may want to cover:
+> .env
 
-* Ruby version
+```
+ACK_ENV=development
+PORT=3000
+LINE_CHANNEL_SECRET="<LINE_CHANNEL_SECRET>"
+LINE_CHANNEL_TOKEN="<LINE_CHANNEL_TOKEN>"
+ADMIN_USER="<USER_NAME>"
+ADMIN_PASS="<PASSWORD>"
+```
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
